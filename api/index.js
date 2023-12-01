@@ -5,7 +5,7 @@ import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
-import path from 'path';
+import cors from "cors"; // Import the cors module
 
 dotenv.config();
 
@@ -22,16 +22,18 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+// Use cors middleware to enable CORS for all routes
+app.use(cors());
+
+app.get('/', (req, res) => {
+  // Check if MongoDB is connected or not
+  const isConnected = mongoose.connection.readyState === 1;
+  if (isConnected) {
+    res.json({ message: 'Server is running fine.' });
+  } else {
+    res.status(500).json({ message: 'Server error: MongoDB connection failed.' });
+  }
 });
-
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/client/dist')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-})
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
@@ -45,4 +47,8 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
 });
