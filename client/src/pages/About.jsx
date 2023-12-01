@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function About() {
   return (
-    <div className='bg-gradient-to-r from-purple-700 to-indigo-800 py-12 sm:py-20 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-40 text-white'>
+    <div className='bg-gradient-to-r from-purple-700 to-indigo-800 py-12 sm:py-20 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-40 text-white min-h-screen'>
       <div className='max-w-4xl mx-auto'>
         <h1 className='text-3xl sm:text-4xl lg:text-5xl font-bold mb-6'>
           Welcome to PropertyPulse

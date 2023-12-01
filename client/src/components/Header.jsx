@@ -29,14 +29,15 @@ const Header = () => {
   };
   return (
     <header className="bg-gradient-to-r from-purple-500 to-indigo-600 shadow-lg">
-    <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
-      <Link to="/">
-        <h1 className="font-bold text-lg sm:text-2xl flex items-center space-x-1">
-          <span className="text-white">Property</span>
+  <div className="max-w-6xl mx-auto p-3">
+    <div className="flex flex-wrap items-center justify-between">
+      <Link to="/" className="flex items-center mb-2 sm:mb-0">
+        <h1 className="font-bold text-lg sm:text-2xl flex items-center space-x-1 text-white">
+          <span>Property</span>
           <span className="text-yellow-300">Pulse</span>
         </h1>
       </Link>
-      <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+      <form onSubmit={handleSubmit} className="flex items-center mt-2 sm:mt-0">
         <input
           type="text"
           value={searchTerm}
@@ -48,28 +49,31 @@ const Header = () => {
           <FaSearch className="text-lg" />
         </button>
       </form>
-      <ul className="flex gap-4 items-center">
-        <Link to="/" className="text-white hover:text-yellow-300">
-          <li>Home</li>
-        </Link>
-        <Link to="/about" className="text-white hover:text-yellow-300">
-          <li>About</li>
-        </Link>
-        <Link to="/profile" className="text-white hover:text-yellow-300">
-          {currentUser ? (
-            <img
-              className="rounded-full h-7 w-7 object-cover"
-              src={currentUser.avatar}
-              alt="User Avatar"
-            />
-          ) : (
-            <li>Sign in</li>
-          )}
-        </Link>
+      <ul className="flex flex-wrap sm:flex-nowrap gap-4 items-center mt-2 sm:mt-0">
+        <li className="text-white hover:text-yellow-300">
+          <Link to="/">Home</Link>
+        </li>
+        <li className="text-white hover:text-yellow-300">
+          <Link to="/about">About</Link>
+        </li>
+        <li className="text-white hover:text-yellow-300">
+          <Link to="/profile">
+            {currentUser ? (
+              <img
+                className="rounded-full h-7 w-7 object-cover"
+                src={currentUser.avatar}
+                alt="User Avatar"
+              />
+            ) : (
+              <span>Sign in</span>
+            )}
+          </Link>
+        </li>
       </ul>
     </div>
-  </header>
-  
+  </div>
+</header>
+
   );
 };
 
