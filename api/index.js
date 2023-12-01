@@ -6,6 +6,8 @@ import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors"; // Import the cors module
+import path from 'path';
+
 
 dotenv.config();
 
@@ -25,9 +27,26 @@ app.use(cookieParser());
 // Use cors middleware to enable CORS for all routes
 app.use(cors());
 
+app.get('/', (req, res) => {
+  // Check if MongoDB is connected or not
+  const isConnected = mongoose.connection.readyState === 1;
+  if (isConnected) {
+    res.json({ message: 'Server is running fine.' });
+  } else {
+    res.status(500).json({ message: 'Server error: MongoDB connection failed.' });
+  }
+});
+
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use('/api/listing', listingRouter);
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
