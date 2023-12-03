@@ -3,46 +3,53 @@ import { MdLocationOn } from 'react-icons/md';
 
 export default function ListingItem({ listing }) {
   return (
-    <div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]'>
-      <Link to={`/listing/${listing._id}`}>
+    <Link
+      to={`/listing/${listing._id}`}
+      className='block w-full sm:w-72 mx-auto mb-6 overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow'
+    >
+      <div className='relative'>
         <img
           src={
             listing.imageUrls[0] ||
-            'https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/Sales_Blog/real-estate-business-compressor.jpg?width=595&height=400&name=real-estate-business-compressor.jpg'
+            'https://via.placeholder.com/600x400'
           }
           alt='listing cover'
-          className='h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-transform duration-300'
+          className='w-full h-48 sm:h-36 object-cover transition-transform duration-300 transform-gpu hover:scale-105'
         />
-        <div className='p-3 flex flex-col gap-2 w-full'>
-          <p className='truncate text-lg font-semibold text-gray-800 hover:text-indigo-600'>
+        <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-center opacity-0 hover:opacity-100 transition-opacity'>
+          <h2 className='text-lg font-semibold'>
             {listing.name}
-          </p>
-          <div className='flex items-center gap-1 text-gray-600'>
-            <MdLocationOn className='h-4 w-4 text-green-700' />
-            <p className='text-sm truncate w-full'>{listing.address}</p>
+          </h2>
+        </div>
+      </div>
+      <div className='p-4'>
+        <div className='flex items-center mb-2 text-gray-600'>
+          <MdLocationOn className='h-4 w-4 mr-1 text-green-700' />
+          <p className='text-sm'>{listing.address}</p>
+        </div>
+        <p className='text-sm text-gray-700 line-clamp-3 mb-2'>
+          {listing.description}
+        </p>
+        <p className='text-indigo-600 font-semibold'>
+          {listing.offer
+            ? `$${listing.discountPrice.toLocaleString('en-US')}${
+                listing.type === 'rent' ? ' / month' : ''
+              }`
+            : `$${listing.regularPrice.toLocaleString('en-US')}`}
+        </p>
+        <div className='flex justify-between mt-2 text-gray-800 text-sm'>
+          <div className='font-bold'>
+            {`${listing.bedrooms} ${
+              listing.bedrooms > 1 ? 'beds' : 'bed'
+            }`}
           </div>
-          <p className='text-sm text-gray-700 line-clamp-2'>
-            {listing.description}
-          </p>
-          <p className='text-indigo-600 mt-2 font-semibold'>
-            {listing.offer
-              ? `$${listing.discountPrice.toLocaleString('en-US')}${
-                  listing.type === 'rent' ? ' / month' : ''
-                }`
-              : `$${listing.regularPrice.toLocaleString('en-US')}`}
-          </p>
-          <div className='text-gray-800 flex gap-4'>
-            <div className='font-bold text-xs'>
-              {`${listing.bedrooms} ${listing.bedrooms > 1 ? 'beds' : 'bed'}`}
-            </div>
-            <div className='font-bold text-xs'>
-              {`${listing.bathrooms} ${
-                listing.bathrooms > 1 ? 'baths' : 'bath'
-              }`}
-            </div>
+          <div className='font-bold'>
+            {`${listing.bathrooms} ${
+              listing.bathrooms > 1 ? 'baths' : 'bath'
+            }`}
           </div>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }

@@ -11,6 +11,7 @@ import CreateListing from "./pages/CreateListing";
 import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
 import Search from "./pages/Search";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -23,8 +24,7 @@ const App = () => {
           <Route path="/about" element={<About />}></Route>
           <Route path="/sign-in" element={<Signin />}></Route>
           <Route path="/sign-up" element={<Signup />}></Route>
-          <Route path='/search' element={<Search />} />
-
+          <Route path="/search" element={<Search />} />
 
           <Route path="/listing/:listingId" element={<Listing />}></Route>
 
@@ -33,11 +33,14 @@ const App = () => {
 
             <Route path="/create-listing" element={<CreateListing />}></Route>
 
-            <Route path="/update-listing/:listingId" element={<UpdateListing />}></Route>
-
-
+            <Route
+              path="/update-listing/:listingId"
+              element={<UpdateListing />}
+            ></Route>
           </Route>
         </Routes>
+
+        <Footer/>
       </Router>
     </>
   );
