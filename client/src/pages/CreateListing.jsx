@@ -162,7 +162,7 @@ export default function CreateListing() {
           <input
             type="text"
             placeholder="Name"
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg focus:outline-none focus:border-blue-500"
             id="name"
             maxLength="62"
             minLength="10"
@@ -171,9 +171,8 @@ export default function CreateListing() {
             value={formData.name}
           />
           <textarea
-            type="text"
             placeholder="Description"
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg focus:outline-none focus:border-blue-500 h-24 resize-none"
             id="description"
             required
             onChange={handleChange}
@@ -182,131 +181,144 @@ export default function CreateListing() {
           <input
             type="text"
             placeholder="Address"
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg focus:outline-none focus:border-blue-500"
             id="address"
             required
             onChange={handleChange}
             value={formData.address}
           />
-          <div className="flex gap-6 flex-wrap">
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="sale"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.type === "sale"}
-              />
-              <span>Sell</span>
+          <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="sale"
+                  className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
+                  onChange={handleChange}
+                  checked={formData.type === "sale"}
+                />
+                <label htmlFor="sale" className="text-gray-700">
+                  Sell
+                </label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="rent"
+                  className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
+                  onChange={handleChange}
+                  checked={formData.type === "rent"}
+                />
+                <label htmlFor="rent" className="text-gray-700">
+                  Rent
+                </label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="parking"
+                  className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
+                  onChange={handleChange}
+                  checked={formData.parking}
+                />
+                <label htmlFor="parking" className="text-gray-700">
+                  Parking spot
+                </label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="furnished"
+                  className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
+                  onChange={handleChange}
+                  checked={formData.furnished}
+                />
+                <label htmlFor="furnished" className="text-gray-700">
+                  Furnished
+                </label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="offer"
+                  className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
+                  onChange={handleChange}
+                  checked={formData.offer}
+                />
+                <label htmlFor="offer" className="text-gray-700">
+                  Offer
+                </label>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="rent"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.type === "rent"}
-              />
-              <span>Rent</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="parking"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.parking}
-              />
-              <span>Parking spot</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="furnished"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.furnished}
-              />
-              <span>Furnished</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="offer"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.offer}
-              />
-              <span>Offer</span>
+            <div className="flex flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="bedrooms"
+                  min="1"
+                  max="10"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  onChange={handleChange}
+                  value={formData.bedrooms}
+                />
+                <p className="text-gray-700">Beds</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="bathrooms"
+                  min="1"
+                  max="10"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  onChange={handleChange}
+                  value={formData.bathrooms}
+                />
+                <p className="text-gray-700">Baths</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="regularPrice"
+                  min="50"
+                  max="10000000"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  onChange={handleChange}
+                  value={formData.regularPrice}
+                />
+                <div className="flex flex-col items-center">
+                  <p className="text-gray-700">Regular price</p>
+                  {formData.type === "rent" && (
+                    <span className="text-xs text-gray-500">($ / month)</span>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex flex-wrap gap-6">
+
+          {formData.offer && (
             <div className="flex items-center gap-2">
               <input
                 type="number"
-                id="bedrooms"
-                min="1"
-                max="10"
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-                onChange={handleChange}
-                value={formData.bedrooms}
-              />
-              <p>Beds</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="bathrooms"
-                min="1"
-                max="10"
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-                onChange={handleChange}
-                value={formData.bathrooms}
-              />
-              <p>Baths</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="regularPrice"
-                min="50"
+                id="discountPrice"
+                min="0"
                 max="10000000"
                 required
                 className="p-3 border border-gray-300 rounded-lg"
                 onChange={handleChange}
-                value={formData.regularPrice}
+                value={formData.discountPrice}
               />
               <div className="flex flex-col items-center">
-                <p>Regular price</p>
+                <p>Discounted price</p>
+
                 {formData.type === "rent" && (
                   <span className="text-xs">($ / month)</span>
                 )}
               </div>
             </div>
-            {formData.offer && (
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  id="discountPrice"
-                  min="0"
-                  max="10000000"
-                  required
-                  className="p-3 border border-gray-300 rounded-lg"
-                  onChange={handleChange}
-                  value={formData.discountPrice}
-                />
-                <div className="flex flex-col items-center">
-                  <p>Discounted price</p>
-
-                  {formData.type === "rent" && (
-                    <span className="text-xs">($ / month)</span>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
+          )}
         </div>
         <div className="flex flex-col flex-1 gap-4">
           <p className="font-semibold">
