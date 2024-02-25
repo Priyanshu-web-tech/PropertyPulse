@@ -30,13 +30,8 @@ const App = () => {
 
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />}></Route>
-
             <Route path="/create-listing" element={<CreateListing />}></Route>
-
-            <Route
-              path="/update-listing/:listingId"
-              element={<UpdateListing />}
-            ></Route>
+            <Route path="/update-listing/:listingId" element={<UpdateListing />}></Route>
           </Route>
         </Routes>
 
