@@ -8,6 +8,7 @@ import home from "../assets/home.json";
 import LottiePlayer from "react-lottie-player";
 import ListingItem from "../components/ListingItem";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -17,34 +18,51 @@ export default function Home() {
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?offer=true&limit=4");
-        const data = await res.json();
+        const res = await axios.get("/api/listing/get", {
+          params: {
+            offer: true,
+            limit: 4,
+          },
+        });
+        const data = res.data;
         setOfferListings(data);
         fetchRentListings();
       } catch (error) {
         console.log(error);
       }
     };
+  
     const fetchRentListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=rent&limit=4");
-        const data = await res.json();
+        const res = await axios.get("/api/listing/get", {
+          params: {
+            type: "rent",
+            limit: 4,
+          },
+        });
+        const data = res.data;
         setRentListings(data);
         fetchSaleListings();
       } catch (error) {
         console.log(error);
       }
     };
-
+  
     const fetchSaleListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=sale&limit=4");
-        const data = await res.json();
+        const res = await axios.get("/api/listing/get", {
+          params: {
+            type: "sale",
+            limit: 4,
+          },
+        });
+        const data = res.data;
         setSaleListings(data);
       } catch (error) {
-        log(error);
+        console.log(error);
       }
     };
+  
     fetchOfferListings();
   }, []);
   return (

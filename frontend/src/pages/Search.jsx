@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
+import axios from "axios";
+
 
 export default function Search() {
   const navigate = useNavigate();
@@ -52,15 +54,21 @@ export default function Search() {
       setLoading(true);
       setShowMore(false);
       const searchQuery = urlParams.toString();
-      const res = await fetch(`/api/listing/get?${searchQuery}`);
-      const data = await res.json();
-      if (data.length > 8) {
-        setShowMore(true);
-      } else {
-        setShowMore(false);
+    
+      try {
+        const res = await axios.get(`/api/listing/get?${searchQuery}`);
+        const data = res.data;
+        if (data.length > 8) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+        }
+        setListings(data);
+      } catch (error) {
+        console.log(error.response?.data?.message || error.message);
+      } finally {
+        setLoading(false);
       }
-      setListings(data);
-      setLoading(false);
     };
 
     fetchListings();
@@ -120,12 +128,17 @@ export default function Search() {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set('startIndex', startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(`/api/listing/get?${searchQuery}`);
-    const data = await res.json();
-    if (data.length < 9) {
-      setShowMore(false);
+  
+    try {
+      const res = await axios.get(`/api/listing/get?${searchQuery}`);
+      const data = res.data;
+      if (data.length < 9) {
+        setShowMore(false);
+      }
+      setListings([...listings, ...data]);
+    } catch (error) {
+      console.log(error.response?.data?.message || error.message);
     }
-    setListings([...listings, ...data]);
   };
   return (
     <div className='flex flex-col md:flex-row'>

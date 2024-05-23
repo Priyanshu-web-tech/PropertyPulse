@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import axios from "axios";
+
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -17,26 +19,28 @@ export default function SignUp() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
+      setError(null);
+  
+      const res = await axios.post("/api/auth/signup", formData, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
-      const data = await res.json();
+  
+      const data = res.data;
       console.log(data);
+  
       if (data.success === false) {
         setLoading(false);
         setError(data.message);
         return;
       }
+  
       setLoading(false);
-      setError(null);
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);
-      setError(error.message);
+      setError(error.response?.data?.message || error.message);
     }
   };
   return (

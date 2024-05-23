@@ -8,6 +8,8 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import OAuth from "../components/OAuth";
+import axios from "axios";
+
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -27,25 +29,24 @@ export default function SignIn() {
     e.preventDefault();
     try {
       dispatch(signInStart());
-
-      const res = await fetch("/api/auth/signin", {
-        method: "POST",
+  
+      const res = await axios.post("/api/auth/signin", formData, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
-      const data = await res.json();
-
+  
+      const data = res.data;
+  
       if (data.success === false) {
         dispatch(signInFailure(data.message));
         return;
       }
-
+  
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      dispatch(signInFailure(data.message));
+      dispatch(signInFailure(error.response?.data?.message || error.message));
     }
   };
 

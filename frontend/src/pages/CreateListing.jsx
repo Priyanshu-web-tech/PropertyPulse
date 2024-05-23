@@ -8,6 +8,8 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -131,27 +133,30 @@ export default function CreateListing() {
         return setError("Discount price must be lower than regular price");
       setLoading(true);
       setError(false);
-      const res = await fetch("/api/listing/create", {
-        method: "POST",
+  
+      const res = await axios.post("/api/listing/create", {
+        ...formData,
+        userRef: currentUser._id,
+      }, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          userRef: currentUser._id,
-        }),
       });
-      const data = await res.json();
+  
+      const data = res.data;
       setLoading(false);
+  
       if (data.success === false) {
         setError(data.message);
+      } else {
+        navigate(`/listing/${data._id}`);
       }
-      navigate(`/listing/${data._id}`);
     } catch (error) {
-      setError(error.message);
+      setError(error.response?.data?.message || error.message);
       setLoading(false);
     }
   };
+  
   return (
     <main className="p-4 max-w-4xl mx-auto min-h-screen">
       <h1 className="text-3xl font-semibold text-center my-7">
